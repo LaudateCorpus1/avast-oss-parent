@@ -223,7 +223,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <version>2.6</version>
+                <version>2.5</version>
                 <executions>
                     <!-- Overwrites the POM installed into local repository with POM with replaced (resolved) properties.
                          This is necessary for the Scala cross-compilation to work. -->
