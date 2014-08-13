@@ -187,6 +187,9 @@
                 <plugin>
                     <groupId>net.alchim31.maven</groupId>
                     <artifactId>scala-maven-plugin</artifactId>
+                    <configuration>
+                        <scalaVersion>${build.scala.compiler.version}</scalaVersion>
+                    </configuration>
                     <version>3.1.6</version>
                     <executions>
                         <!-- Compilation in process-resources phase is necessary for mixed Java/Scala projects - Scala must be compiled before Java classes. -->
@@ -209,6 +212,27 @@
                             <phase>compile</phase>
                             <goals>
                                 <goal>compile</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>scaladoc</id>
+                            <phase>site</phase>
+                            <goals>
+                                <goal>doc-jar</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>scala-source</id>
+                            <phase>process-sources</phase>
+                            <goals>
+                                <goal>add-source</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>scala-test-sources</id>
+                            <phase>process-test-resources</phase>
+                            <goals>
+                                <goal>add-source</goal>
                             </goals>
                         </execution>
                         <execution>
@@ -350,6 +374,7 @@
                 </executions>
             </plugin>
 
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -360,12 +385,20 @@
                         <include>**/*.scala</include>
                     </includes>
                 </configuration>
+
                 <executions>
                     <execution>
                         <id>attach-sources</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>attach-test-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>test-jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
