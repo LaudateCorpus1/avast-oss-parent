@@ -1,0 +1,36 @@
+
+export releaseVersion=1.0.0
+export gpgKeyname=A03063C5
+export gpgPass=*****
+
+mvn clean
+mvn release:clean 
+
+mvn release:prepare \
+   -P release \
+   -DrepositoryId=sonatype-nexus-staging \
+   -DupdateWorkingCopyVersions=false \
+   -Dtag=avast-oss-parent-${releaseVersion} \
+   -DreleaseVersion=${releaseVersion}
+   
+   
+# Parent pom should be released without resolved properties, so we deploy it manualy 
+   
+mvn gpg:sign-and-deploy-file \
+-Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2/ \
+-DrepositoryId=sonatype-nexus-staging \
+-Dgpg.keyname=${gpgKeyname} \
+-DpomFile=target/avast-oss-parent-${releaseVersion}.pom \
+-Dfile=target/avast-oss-parent-${releaseVersion}.pom \
+-Dgpg.passphrase=${gpgPass}   
+
+# Then revert version to SNAPSHOT and commit...
+
+Nexus UI: https://oss.sonatype.org/
+
+ * To close a staging repository:
+ * Login to the Nexus UI.
+ * Go to Staging Repositories page.
+ * Select a staging repository.
+ * Click the Close button.
+   
