@@ -59,9 +59,22 @@
         <!-- configurtion for POM property fix-->
         <property.fix.dir>pom-property-fix</property.fix.dir>
 
-        <repo.id>sonatype-nexuvs-staging</repo.id>
+
+        <repo.snapshot.id>sonatype-nexus-snapshots</repo.snapshot.id>
+        <repo.snapshot.url>${sonatypeOssDistMgmtSnapshotsUrl}</repo.snapshot.url>
+
+        <repo.release.id>sonatype-nexus-staging</repo.release.id>
+        <repo.release.url>https://oss.sonatype.org/service/local/staging/deploy/maven2</repo.release.url>
+
+        <!-- URL of the repository used to deploy artifacts to.
+             It's the snapshots repository by default, overriden by the 'release' profile during release. -->
+        <repo.deploy.url>${repo.snapshot.url}</repo.deploy.url>
+        <repo.id>${repo.snapshot.id}</repo.id>
         <release>false</release>
 
+        <!-- Maven gpg plugin uses default key for signing and ignores "-Dgpg.keyname=" property... -->
+        <gpg.keyname>A03063C5</gpg.keyname>
+        <gpg.defaultKeyring>false</gpg.defaultKeyring>
     </properties>
 
     <profiles>
@@ -71,7 +84,8 @@
         <profile>
             <id>release</id>
             <properties>
-                <!--<repo.deploy.url>${repo.release.url}</repo.deploy.url>-->
+                <repo.deploy.url>${repo.release.url}</repo.deploy.url>
+                <repo.id>${repo.release.id}</repo.id>
                 <release>true</release>
             </properties>
         </profile>
@@ -257,10 +271,8 @@
                             <goal>deploy-file</goal>
                         </goals>
                         <configuration>
-                            <!--
                             <repositoryId>${repo.id}</repositoryId>
                             <url>${repo.deploy.url}</url>
-                            -->
                             <packaging>pom</packaging>
                             <file>target/${property.fix.dir}/pom.xml</file>
                             <pomFile>target/${property.fix.dir}/pom.xml</pomFile>
