@@ -147,8 +147,8 @@
         <profile>
             <id>scala-2.11</id>
             <properties>
-                <build.scala.version>2.10</build.scala.version>
-                <build.scala.compiler.version>2.10.4</build.scala.compiler.version>
+                <build.scala.version>2.11</build.scala.version>
+                <build.scala.compiler.version>2.11.2</build.scala.compiler.version>
             </properties>
             <dependencies>
                 <dependency>
