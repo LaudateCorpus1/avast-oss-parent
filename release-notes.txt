@@ -25,6 +25,7 @@ mvn gpg:sign-and-deploy-file \
 -Dgpg.passphrase=${gpgPass}   
 
 # Then revert version to SNAPSHOT and commit...
+rm pom.xml.releaseBackup release.properties
 
 Nexus UI: https://oss.sonatype.org/
 
